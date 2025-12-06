@@ -15,7 +15,7 @@ export default function HomePage() {
                 <Radar className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground text-balance">LeadRadar</h1>
+                <h1 className="text-3xl font-bold text-foreground text-balance">LeadSightz</h1>
                 <p className="text-muted-foreground mt-0.5">AI-powered competitive intelligence platform</p>
               </div>
             </div>
