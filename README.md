@@ -1,4 +1,4 @@
-# LeadRadar 🎯
+# LeadSightz 🎯
 ### AI-Powered Lead Generation Platform
 
 <div align="center">
@@ -50,7 +50,7 @@ This project competes in:
 
 ## 👥 Team
 
-Built with ❤️ by **LeadRadar Team**
+Built with ❤️ by **LeadSightz Team**
 
 - **Jason** - Team Leader - [@jasonng7](https://github.com/jasonng7)
 - **Kai** - Business Leader - [@github](https://github.com/kaiusername)
