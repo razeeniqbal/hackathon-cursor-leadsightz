@@ -7,7 +7,7 @@
 
 [![Claude](https://img.shields.io/badge/Claude-Sonnet_4.5-blue)](https://www.anthropic.com/)
 [![Cursor](https://img.shields.io/badge/Built_with-Cursor-green)](https://cursor.sh/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black)](https://vercel.com/)
 
 [🎬 Demo](#-demo) • [🎯 Features](#-features) • [💻 Tech Stack](#-tech-stack) • [👥 Team](#-team)
 
@@ -24,14 +24,20 @@ LeadSightz is an intelligent lead generation platform that leverages Claude AI t
 This project competes in:
 - **Anthropic Track**: Best Use of Claude
 - **Cursor Track**: Best Project made with Cursor
+- **Vercel Track**: Problem Statement by Vercel
 - **Open Track**: Innovation in AI-powered sales automation
 
 ## 🎬 Demo
 
-[Add screenshots, demo video, or live link here]
+### 📺 Watch Our Pitch
 
-**Live Demo**: [Web Demo Version](https://leadradar.vercel.app)
-**Pitching Video**: [Video Link](https://leadradar.vercel.app)
+[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://youtu.be/YOUR_VIDEO_ID)
+
+https://github.com/user-attachments/assets/YOUR_VIDEO_ID.mp4
+
+### 🌐 Live Application
+
+- **Live Demo**: [https://leadsightz.vercel.app](https://leadsightz.vercel.app)
 
 ## 🎯 Features
 
@@ -42,25 +48,37 @@ This project competes in:
 
 ## 💻 Tech Stack
 
+### Core Technologies
 - **Frontend**: Next.js, TypeScript, Tailwind CSS
-- **Backend**: Python/FastAPI
-- **AI**: Claude Sonnet 4.5 (Anthropic API)
-- **Database**: PostgreSQL
+- **Deployment**: Vercel
+- **AI Models**: 
+- Claude Sonnet 4.5 (Anthropic API) 
+- Lead analysis & qualification
 - **Development**: Cursor IDE
+
+### Sponsor Technologies Used
+- **Anthropic Claude**: Primary AI engine for intelligent lead analysis
+- **Cursor**: AI-powered development for rapid prototyping
+- **Vercel**: Seamless deployment and hosting
 
 ## 👥 Team
 
 Built with ❤️ by **LeadSightz Team**
 
-- **Jason** - Team Leader - [@jasonng7](https://github.com/jasonng7)
-- **Kai** - Business Leader - [@github](https://github.com/kaiusername)
-- **Razeen** - Technology Leader - [@razeeniqbal](https://github.com/razeeniqbal)
+- **Jason** - Team Leader - [@jasonngjiexin](https://www.linkedin.com/in/jasonngjiexin/)
+- **Kai** - Business Leader - [@wengkai-loh-022230222](https://www.linkedin.com/in/wengkai-loh-022230222/)
+- **Razeen** - Technology Leader - [@razeeniqbal](https://www.linkedin.com/in/razeeniqbal/)
 
 ## 🙏 Acknowledgments
 
-- **Anthropic** for Claude API
-- **Cursor** for AI-powered development tools
-- **Hackathon Organizers** for an amazing event
+### Sponsors
+- **Anthropic** - For Claude API and cutting-edge AI capabilities
+- **Cursor** - For revolutionizing AI-powered development
+- **Vercel** - For seamless deployment platform
+
+### Special Thanks
+- **Hackathon Organizers** - For creating an incredible event
+- **All Sponsor Partners** - For their tools, credits, and support
 
 ---
 
