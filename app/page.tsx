@@ -1,18 +1,32 @@
 import { SearchForm } from "@/components/search-form"
-import { Radar, TrendingUp, Zap } from "lucide-react"
+import { ProfileSelector } from "@/components/profile-selector"
+import { Radar, TrendingUp, Zap, Settings } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-accent/20">
       <header className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary rounded-lg">
-              <Radar className="h-6 w-6 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary rounded-lg">
+                <Radar className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground text-balance">LeadRadar</h1>
+                <p className="text-muted-foreground mt-0.5">AI-powered competitive intelligence platform</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground text-balance">LeadRadar</h1>
-              <p className="text-muted-foreground mt-0.5">AI-powered competitive intelligence platform</p>
+            <div className="flex items-center gap-3">
+              <ProfileSelector />
+              <Link href="/profiles">
+                <Button variant="outline" size="sm">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Manage Profiles
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

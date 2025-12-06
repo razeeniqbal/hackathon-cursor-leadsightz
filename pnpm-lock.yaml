@@ -12,7 +12,7 @@ importers:
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.60.0(react@19.2.0))
       '@neondatabase/serverless':
-        specifier: 1.0.2
+        specifier: latest
         version: 1.0.2
       '@radix-ui/react-accordion':
         specifier: 1.2.2
@@ -3353,7 +3353,7 @@ snapshots:
 
   '@types/pg@8.15.6':
     dependencies:
-      '@types/node': 22.0.0
+      '@types/node': 22.19.1
       pg-protocol: 1.10.3
       pg-types: 2.2.0
 
