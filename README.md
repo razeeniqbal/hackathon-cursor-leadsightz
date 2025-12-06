@@ -68,6 +68,9 @@ Built with ❤️ by **LeadSightz Team**
 - **Jason** - Team Leader - [@jasonngjiexin](https://www.linkedin.com/in/jasonngjiexin/)
 - **Kai** - Business Leader - [@wengkai-loh-022230222](https://www.linkedin.com/in/wengkai-loh-022230222/)
 - **Razeen** - Technology Leader - [@razeeniqbal](https://www.linkedin.com/in/razeeniqbal/)
+- **Jason** - Team Leader - [@jasonngjiexin](https://www.linkedin.com/in/jasonngjiexin/)
+- **Kai** - Business Leader - [@wengkai-loh-022230222](https://www.linkedin.com/in/wengkai-loh-022230222/)
+- **Razeen** - Technology Leader - [@razeeniqbal](https://www.linkedin.com/in/razeeniqbal/)
 
 ## 🙏 Acknowledgments
 
