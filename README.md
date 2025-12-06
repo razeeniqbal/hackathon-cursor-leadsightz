@@ -17,7 +17,7 @@
 
 ## 📖 Overview
 
-LeadRadar is an intelligent lead generation platform that leverages Claude AI to automate prospect research, qualification, and outreach. Built during the Cursor x Anthropic Hackathon, it transforms how businesses discover and engage with potential customers.
+LeadSightz is an intelligent lead generation platform that leverages Claude AI to automate prospect research, qualification, and outreach. Built during the Cursor x Anthropic Hackathon, it transforms how businesses discover and engage with potential customers.
 
 ### 🏆 Competition Tracks
 
