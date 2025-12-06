@@ -3,8 +3,9 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ArrowUpDown, ExternalLink, Phone, Globe, MessageSquare, Sparkles } from "lucide-react"
+import { ArrowUpDown, ExternalLink, Phone, Globe, MessageSquare, Sparkles, Star } from "lucide-react"
 import { BattleCardDialog } from "./battle-card-dialog"
 import { ReviewsDialog } from "./reviews-dialog"
 
@@ -56,63 +57,81 @@ export function LeadList({ leads }: LeadListProps) {
   })
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Lead List</CardTitle>
+    <Card className="shadow-xl border-2 animate-scale-in">
+      <CardHeader className="bg-muted/50 border-b-2 border-border">
+        <div className="flex items-center gap-2">
+          <Star className="h-5 w-5 text-primary" />
+          <CardTitle className="text-2xl">Lead List</CardTitle>
+        </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="bg-muted/30">
                 <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("name")} className="h-8 px-2">
+                  <Button variant="ghost" onClick={() => handleSort("name")} className="h-10 px-3 font-semibold">
                     Business Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
                 <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("rating")} className="h-8 px-2">
+                  <Button variant="ghost" onClick={() => handleSort("rating")} className="h-10 px-3 font-semibold">
                     Rating
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
                 <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("user_ratings_total")} className="h-8 px-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort("user_ratings_total")}
+                    className="h-10 px-3 font-semibold"
+                  >
                     Reviews
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Contact</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="font-semibold">Contact</TableHead>
+                <TableHead className="font-semibold">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sortedLeads.map((lead) => (
-                <TableRow key={lead.place_id}>
-                  <TableCell className="font-medium">
+              {sortedLeads.map((lead, index) => (
+                <TableRow
+                  key={lead.place_id}
+                  className="hover:bg-accent/50 transition-colors border-b border-border"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <TableCell className="font-medium py-4">
                     <div>
-                      <div className="font-semibold text-foreground">{lead.name}</div>
+                      <div className="font-semibold text-foreground text-base mb-1">{lead.name}</div>
                       <div className="text-sm text-muted-foreground truncate max-w-xs">{lead.address}</div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-foreground">{lead.rating.toFixed(1)}</span>
-                      <span className="text-yellow-500 text-xl">★</span>
+                      <Badge
+                        variant={lead.rating >= 4.5 ? "default" : lead.rating >= 4.0 ? "secondary" : "outline"}
+                        className="text-base font-bold px-3 py-1"
+                      >
+                        {lead.rating.toFixed(1)}
+                      </Badge>
+                      <Star className="h-4 w-4 fill-secondary text-secondary" />
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="text-muted-foreground">{lead.user_ratings_total.toLocaleString()} reviews</span>
+                    <span className="text-muted-foreground font-medium">
+                      {lead.user_ratings_total.toLocaleString()} reviews
+                    </span>
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                       {lead.phone_number && (
                         <a
                           href={`tel:${lead.phone_number}`}
-                          className="flex items-center gap-1 text-sm text-primary hover:underline"
+                          className="flex items-center gap-2 text-sm text-primary hover:underline font-medium"
                         >
-                          <Phone className="h-3 w-3" />
+                          <Phone className="h-4 w-4" />
                           {lead.phone_number}
                         </a>
                       )}
@@ -121,39 +140,46 @@ export function LeadList({ leads }: LeadListProps) {
                           href={lead.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-sm text-primary hover:underline"
+                          className="flex items-center gap-2 text-sm text-primary hover:underline font-medium"
                         >
-                          <Globe className="h-3 w-3" />
+                          <Globe className="h-4 w-4" />
                           Website
                         </a>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => {
                           setSelectedLead(lead)
                           setShowReviews(true)
                         }}
                         title="View Reviews"
+                        className="hover:bg-accent hover:border-primary transition-colors"
                       >
                         <MessageSquare className="h-4 w-4" />
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => {
                           setSelectedLead(lead)
                           setShowBattleCard(true)
                         }}
                         title="Generate Battle Card with AI"
+                        className="hover:bg-primary/10 hover:border-primary transition-colors"
                       >
-                        <Sparkles className="h-4 w-4" />
+                        <Sparkles className="h-4 w-4 text-primary" />
                       </Button>
-                      <Button variant="ghost" size="sm" asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        asChild
+                        className="hover:bg-accent hover:border-primary transition-colors bg-transparent"
+                      >
                         <a
                           href={lead.google_maps_url}
                           target="_blank"

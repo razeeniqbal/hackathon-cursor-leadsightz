@@ -41,12 +41,113 @@ export function LeadMap({ leads }: LeadMapProps) {
     const avgLat = leads.reduce((sum, lead) => sum + Number(lead.latitude), 0) / leads.length
     const avgLng = leads.reduce((sum, lead) => sum + Number(lead.longitude), 0) / leads.length
 
-    // Initialize map
+    const mapStyles = [
+      {
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        elementType: "labels.text.stroke",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "administrative",
+        elementType: "geometry.stroke",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "administrative.land_parcel",
+        elementType: "geometry.stroke",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "administrative.land_parcel",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "landscape.natural",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "poi",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "poi",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "poi.park",
+        elementType: "geometry.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "poi.park",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "road",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "road.arterial",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "road.highway",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "road.local",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "transit.line",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "transit.station",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [{ saturation: -100 }],
+      },
+      {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: -100 }],
+      },
+    ]
+
+    // Initialize map with monotone styles
     const map = new google.maps.Map(mapRef.current, {
       center: { lat: avgLat, lng: avgLng },
       zoom: 13,
       mapTypeControl: true,
       streetViewControl: false,
+      styles: mapStyles,
     })
 
     mapInstanceRef.current = map
@@ -80,8 +181,8 @@ export function LeadMap({ leads }: LeadMapProps) {
 
     return () => {
       // Cleanup
-      if (mapInstanceRef.current && google.maps.event) {
-        google.maps.event.clearInstanceListeners(mapInstanceRef.current)
+      if (mapInstanceRef.current && window.google.maps.event) {
+        window.google.maps.event.clearInstanceListeners(mapInstanceRef.current)
       }
     }
   }, [leads, isLoaded])
