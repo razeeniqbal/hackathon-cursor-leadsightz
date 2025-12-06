@@ -31,9 +31,7 @@ This project competes in:
 
 ### 📺 Watch Our Pitch
 
-[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://youtu.be/YOUR_VIDEO_ID)
-
-https://github.com/user-attachments/assets/YOUR_VIDEO_ID.mp4
+[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=-Px5BuuDvKwhttps://youtu.be/YOUR_VIDEO_ID)
 
 ### 🌐 Live Application
 
