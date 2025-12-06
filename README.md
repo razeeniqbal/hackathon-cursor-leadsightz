@@ -28,8 +28,8 @@ This project competes in:
 
 ## 🎬 Demo
 
-**Live Demo**: [Web Demo Version](https://leadsightz.vercel.app)
-**\nPitching Video**: [Video Link](https://leadradar.vercel.app)
+- **Live Demo**: [Web Demo Version](https://leadsightz.vercel.app)
+- **Pitching Video**: [Video Link](https://leadradar.vercel.app)
 
 ## 🎯 Features
 
@@ -50,9 +50,9 @@ This project competes in:
 
 Built with ❤️ by **LeadSightz Team**
 
-- **Jason** - Team Leader - [@jasonng7](https://github.com/jasonng7)
-- **Kai** - Business Leader - [@github](https://github.com/kaiusername)
-- **Razeen** - Technology Leader - [@razeeniqbal](https://github.com/razeeniqbal)
+- **Jason** - Team Leader - [@jasonngjiexin](https://www.linkedin.com/in/jasonngjiexin/)
+- **Kai** - Business Leader - [@wengkai-loh-022230222](https://www.linkedin.com/in/wengkai-loh-022230222/)
+- **Razeen** - Technology Leader - [@razeeniqbal](https://www.linkedin.com/in/razeeniqbal/)
 
 ## 🙏 Acknowledgments
 
