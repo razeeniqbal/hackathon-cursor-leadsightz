@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ArrowUpDown, ExternalLink, Phone, Globe, TrendingUp, Activity } from "lucide-react"
+import { ArrowUpDown, ExternalLink, Phone, Globe, MessageSquare, Sparkles } from "lucide-react"
+import { BattleCardDialog } from "./battle-card-dialog"
+import { ReviewsDialog } from "./reviews-dialog"
 
 interface Lead {
   place_id: string
@@ -15,10 +16,6 @@ interface Lead {
   website: string | null
   rating: number
   user_ratings_total: number
-  volume_score: number
-  stability_score: number
-  total_score: number
-  priority_tier: string
   google_maps_url: string
 }
 
@@ -26,12 +23,15 @@ interface LeadListProps {
   leads: Lead[]
 }
 
-type SortField = "name" | "rating" | "user_ratings_total" | "total_score" | "volume_score" | "stability_score"
+type SortField = "name" | "rating" | "user_ratings_total"
 type SortDirection = "asc" | "desc"
 
 export function LeadList({ leads }: LeadListProps) {
-  const [sortField, setSortField] = useState<SortField>("total_score")
+  const [sortField, setSortField] = useState<SortField>("rating")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
+  const [showBattleCard, setShowBattleCard] = useState(false)
+  const [showReviews, setShowReviews] = useState(false)
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -55,19 +55,6 @@ export function LeadList({ leads }: LeadListProps) {
     return sortDirection === "asc" ? aNum - bNum : bNum - aNum
   })
 
-  const getPriorityBadgeVariant = (tier: string): "default" | "destructive" | "secondary" | "outline" => {
-    switch (tier) {
-      case "Critical":
-        return "destructive"
-      case "High":
-        return "default"
-      case "Medium":
-        return "secondary"
-      default:
-        return "outline"
-    }
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -85,30 +72,17 @@ export function LeadList({ leads }: LeadListProps) {
                   </Button>
                 </TableHead>
                 <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("total_score")} className="h-8 px-2">
-                    Total Score
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </TableHead>
-                <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("volume_score")} className="h-8 px-2">
-                    Volume
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </TableHead>
-                <TableHead>
-                  <Button variant="ghost" onClick={() => handleSort("stability_score")} className="h-8 px-2">
-                    Stability
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </TableHead>
-                <TableHead>
                   <Button variant="ghost" onClick={() => handleSort("rating")} className="h-8 px-2">
                     Rating
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Priority</TableHead>
+                <TableHead>
+                  <Button variant="ghost" onClick={() => handleSort("user_ratings_total")} className="h-8 px-2">
+                    Reviews
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                  </Button>
+                </TableHead>
                 <TableHead>Contact</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -124,30 +98,12 @@ export function LeadList({ leads }: LeadListProps) {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="h-4 w-4 text-primary" />
-                      <span className="font-bold text-lg">{lead.total_score.toFixed(1)}</span>
+                      <span className="text-2xl font-bold text-foreground">{lead.rating.toFixed(1)}</span>
+                      <span className="text-yellow-500 text-xl">★</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Activity className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-sm">{lead.volume_score.toFixed(1)}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Activity className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-sm">{lead.stability_score.toFixed(1)}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col gap-1">
-                      <span className="font-medium">{lead.rating.toFixed(1)} ★</span>
-                      <span className="text-xs text-muted-foreground">({lead.user_ratings_total} reviews)</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getPriorityBadgeVariant(lead.priority_tier)}>{lead.priority_tier}</Badge>
+                    <span className="text-muted-foreground">{lead.user_ratings_total.toLocaleString()} reviews</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1">
@@ -174,17 +130,67 @@ export function LeadList({ leads }: LeadListProps) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={lead.google_maps_url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedLead(lead)
+                          setShowReviews(true)
+                        }}
+                        title="View Reviews"
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedLead(lead)
+                          setShowBattleCard(true)
+                        }}
+                        title="Generate Battle Card with AI"
+                      >
+                        <Sparkles className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" asChild>
+                        <a
+                          href={lead.google_maps_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View on Google Maps"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
+
+        {selectedLead && (
+          <>
+            <ReviewsDialog
+              lead={selectedLead}
+              open={showReviews}
+              onOpenChange={(open) => {
+                setShowReviews(open)
+                if (!open) setSelectedLead(null)
+              }}
+            />
+            <BattleCardDialog
+              lead={selectedLead}
+              open={showBattleCard}
+              onOpenChange={(open) => {
+                setShowBattleCard(open)
+                if (!open) setSelectedLead(null)
+              }}
+            />
+          </>
+        )}
       </CardContent>
     </Card>
   )

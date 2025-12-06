@@ -1,5 +1,5 @@
 "use server"
-import { fetchPlaces } from "@/lib/google-places"
+import { fetchPlaces, fetchPlaceReviews } from "@/lib/google-places"
 
 export interface SearchParams {
   business_type: string
@@ -11,4 +11,9 @@ export interface SearchParams {
 export async function searchLeads(params: SearchParams) {
   const places = await fetchPlaces(params)
   return places
+}
+
+export async function getPlaceReviews(placeId: string) {
+  const reviews = await fetchPlaceReviews(placeId)
+  return reviews
 }

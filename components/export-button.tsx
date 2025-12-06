@@ -12,18 +12,15 @@ interface ExportButtonProps {
 
 export function ExportButton({ leads, businessType, location }: ExportButtonProps) {
   const handleExportCSV = () => {
-    // Generate CSV
     const headers = [
       "Name",
       "Address",
       "Phone",
       "Website",
       "Rating",
-      "Reviews",
-      "Total Score",
-      "Volume Score",
-      "Stability Score",
-      "Priority",
+      "Total Reviews",
+      "Latitude",
+      "Longitude",
       "Google Maps URL",
     ]
 
@@ -34,10 +31,8 @@ export function ExportButton({ leads, businessType, location }: ExportButtonProp
       lead.website || "",
       lead.rating,
       lead.user_ratings_total,
-      lead.total_score,
-      lead.volume_score,
-      lead.stability_score,
-      lead.priority_tier,
+      lead.latitude,
+      lead.longitude,
       lead.google_maps_url,
     ])
 
@@ -77,6 +72,7 @@ export function ExportButton({ leads, businessType, location }: ExportButtonProp
         exported_at: new Date().toISOString(),
       },
       leads: leads.map((lead) => ({
+        place_id: lead.place_id,
         name: lead.name,
         address: lead.address,
         phone_number: lead.phone_number,
@@ -85,10 +81,6 @@ export function ExportButton({ leads, businessType, location }: ExportButtonProp
         user_ratings_total: lead.user_ratings_total,
         latitude: lead.latitude,
         longitude: lead.longitude,
-        total_score: lead.total_score,
-        volume_score: lead.volume_score,
-        stability_score: lead.stability_score,
-        priority_tier: lead.priority_tier,
         google_maps_url: lead.google_maps_url,
       })),
     }

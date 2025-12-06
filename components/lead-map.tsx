@@ -3,18 +3,15 @@
 import { useEffect, useRef, useState } from "react"
 import Script from "next/script"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 
 interface Lead {
-  id: number
+  place_id: string
   name: string
   address: string
   latitude: number
   longitude: number
   rating: number
   user_ratings_total: number
-  total_score: number
-  priority_tier: string
   phone_number: string | null
   website: string | null
   google_maps_url: string
@@ -54,9 +51,8 @@ export function LeadMap({ leads }: LeadMapProps) {
 
     mapInstanceRef.current = map
 
-    // Add markers for each lead with color coding by priority
     leads.forEach((lead) => {
-      const markerColor = getMarkerColor(lead.priority_tier)
+      const markerColor = getMarkerColorByRating(lead.rating)
 
       const marker = new google.maps.Marker({
         position: { lat: Number(lead.latitude), lng: Number(lead.longitude) },
@@ -90,17 +86,11 @@ export function LeadMap({ leads }: LeadMapProps) {
     }
   }, [leads, isLoaded])
 
-  const getMarkerColor = (tier: string): string => {
-    switch (tier) {
-      case "Critical":
-        return "#ef4444" // Red
-      case "High":
-        return "#f97316" // Orange
-      case "Medium":
-        return "#3b82f6" // Blue
-      default:
-        return "#6b7280" // Gray
-    }
+  const getMarkerColorByRating = (rating: number): string => {
+    if (rating >= 4.5) return "#22c55e" // Green - Excellent
+    if (rating >= 4.0) return "#3b82f6" // Blue - Good
+    if (rating >= 3.5) return "#f97316" // Orange - Average
+    return "#6b7280" // Gray - Below Average
   }
 
   const createInfoWindowContent = (lead: Lead): string => {
@@ -114,18 +104,12 @@ export function LeadMap({ leads }: LeadMapProps) {
     return `
       <div style="max-width: 300px; padding: 8px;">
         <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">${lead.name}</h3>
-        <div style="margin-bottom: 8px;">
-          <span style="background: ${getMarkerColor(lead.priority_tier)}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">
-            ${lead.priority_tier} Priority
-          </span>
-        </div>
-        <div style="margin-bottom: 4px;"><strong>Score:</strong> ${lead.total_score.toFixed(1)}</div>
         <div style="margin-bottom: 4px;"><strong>Rating:</strong> ${lead.rating.toFixed(1)} ★ (${lead.user_ratings_total} reviews)</div>
         <div style="margin-bottom: 8px;"><strong>Address:</strong> ${lead.address}</div>
         ${phoneHtml}
         ${websiteHtml}
         <div style="margin-top: 8px;">
-          <a href="/lead/${lead.id}" style="color: #3b82f6; text-decoration: none;">View Full Details →</a>
+          <a href="${lead.google_maps_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">View on Google Maps →</a>
         </div>
       </div>
     `
@@ -142,11 +126,23 @@ export function LeadMap({ leads }: LeadMapProps) {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Map View</span>
-            <div className="flex gap-2 text-sm font-normal">
-              <Badge variant="destructive">Critical</Badge>
-              <Badge variant="default">High</Badge>
-              <Badge variant="secondary">Medium</Badge>
-              <Badge variant="outline">Low</Badge>
+            <div className="flex gap-2 text-sm font-normal items-center">
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                <span>4.5+</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded-full bg-blue-500"></span>
+                <span>4.0+</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+                <span>3.5+</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded-full bg-gray-500"></span>
+                <span>&lt;3.5</span>
+              </span>
             </div>
           </CardTitle>
         </CardHeader>

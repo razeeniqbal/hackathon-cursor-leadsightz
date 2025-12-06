@@ -1,9 +1,7 @@
 /**
  * Google Places API Integration
- * Fetches business data and applies scoring algorithm
+ * Matches the Python algorithm - fetches places and reviews, no fake scoring
  */
-
-import { scoreLead } from "./scoring"
 
 export interface PlacesSearchParams {
   business_type: string
@@ -27,10 +25,19 @@ export interface PlaceResult {
   business_status: string
   open_now?: boolean
   google_maps_url: string
-  volume_score?: number
-  stability_score?: number
-  total_score?: number
-  priority_tier?: number
+}
+
+/**
+ * Review data structure from Google Places API
+ */
+export interface PlaceReview {
+  author_name: string
+  author_url?: string
+  profile_photo_url?: string
+  rating: number
+  relative_time_description: string
+  text: string
+  time: number
 }
 
 /**
@@ -106,30 +113,59 @@ export async function fetchPlaces(params: PlacesSearchParams): Promise<PlaceResu
 
     const validPlaces = detailedPlaces.filter((place): place is PlaceResult => place !== null)
 
-    const scoredPlaces = validPlaces.map((place) => {
-      const scored = scoreLead({
-        rating: place.rating,
-        user_ratings_total: place.user_ratings_total,
-        price_level: place.price_level,
-      })
-
-      console.log("[v0] Scored place:", place.name, "Total:", scored.total_score, "Priority:", scored.priority_tier)
-
-      return {
-        ...place,
-        volume_score: scored.volume_score,
-        stability_score: scored.stability_score,
-        total_score: scored.total_score,
-        priority_tier: scored.priority_tier,
+    validPlaces.sort((a, b) => {
+      if (b.rating !== a.rating) {
+        return b.rating - a.rating
       }
+      return b.user_ratings_total - a.user_ratings_total
     })
 
-    scoredPlaces.sort((a, b) => b.total_score - a.total_score)
-
-    console.log("[v0] Returning", scoredPlaces.length, "scored and sorted leads")
-    return scoredPlaces
+    console.log("[v0] Returning", validPlaces.length, "places sorted by rating")
+    return validPlaces
   } catch (error) {
     console.error("[v0] Error fetching places:", error)
     throw error
+  }
+}
+
+/**
+ * Fetch reviews for a specific place
+ * Google Places API returns maximum 5 most helpful reviews
+ */
+export async function fetchPlaceReviews(placeId: string): Promise<PlaceReview[]> {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY
+
+  if (!apiKey) {
+    console.error("[v0] Google Maps API key is missing")
+    throw new Error("Server-side Google Maps API key is not configured")
+  }
+
+  try {
+    const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}`
+
+    console.log("[v0] Fetching reviews for place:", placeId)
+    const response = await fetch(detailsUrl)
+    const data = await response.json()
+
+    if (data.status !== "OK") {
+      console.error("[v0] Reviews fetch error:", data.status)
+      return []
+    }
+
+    const reviews = data.result?.reviews || []
+    console.log("[v0] Found", reviews.length, "reviews (Google API max: 5)")
+
+    return reviews.map((review: any) => ({
+      author_name: review.author_name || "Anonymous",
+      author_url: review.author_url,
+      profile_photo_url: review.profile_photo_url,
+      rating: review.rating || 0,
+      relative_time_description: review.relative_time_description || "Recently",
+      text: review.text || "",
+      time: review.time || Date.now() / 1000,
+    }))
+  } catch (error) {
+    console.error("[v0] Error fetching reviews:", error)
+    return []
   }
 }
