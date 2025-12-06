@@ -28,10 +28,8 @@ This project competes in:
 
 ## 🎬 Demo
 
-[Add screenshots, demo video, or live link here]
-
-**Live Demo**: [Web Demo Version](https://leadradar.vercel.app)
-**Pitching Video**: [Video Link](https://leadradar.vercel.app)
+**Live Demo**: [Web Demo Version](https://leadsightz.vercel.app)
+**\nPitching Video**: [Video Link](https://leadradar.vercel.app)
 
 ## 🎯 Features
 
